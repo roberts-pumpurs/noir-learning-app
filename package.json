@@ -1,0 +1,27 @@
+{
+	"name": "noir-vite-starter",
+	"version": "1.0.0",
+	"description": "Starter project for Noir using vite",
+	"main": "index.js",
+	"keywords": [
+		"Noir",
+		"Vite",
+		"Starter"
+	],
+	"author": "Roberts Ivanovs (roberts@pumpurs.info)",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@aztec/bb.js": "^0.15.1",
+		"@noir-lang/acvm_js": "^0.34.0",
+		"buffer": "^6.0.3",
+		"fflate": "^0.8.1"
+	},
+	"devDependencies": {
+		"vite": "^4.4.9"
+	}
+}
