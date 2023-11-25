@@ -1,37 +1,47 @@
-import { createSignal } from 'solid-js'
-import solidLogo from './assets/solid.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { NoirDemo } from './noirdemo'
+import { A } from '@solidjs/router';
+import './App.css';
+
+import { Route, Routes } from '@solidjs/router';
+import { IndexPage } from './pages';
+import { BouncerPage } from './pages/bouncer';
+import { EntrantPage } from './pages/entrant';
 
 function App() {
-  const [count, setCount] = createSignal(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
+      <div class="space-y-4 pb-10">
+        <span class="pr-4">
+          <A
+            class="bg-purple-600 text-white text-center py-4 rounded-lg w-64"
+            href="/"
+          >
+            HOME
+          </A>
+        </span>
+        <span class="pr-4">
+          <A
+            class="bg-purple-600 text-white text-center py-4 rounded-lg w-64"
+            href="/bouncer"
+          >
+            BOUNCER
+          </A>
+        </span>
+        <span>
+          <A
+            class="bg-purple-600 text-white text-center py-4 rounded-lg w-64"
+            href="/entrant"
+          >
+            ENTRANT
+          </A>
+        </span>
       </div>
-      <h1>Vite + Solid</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Solid logos to learn more
-      </p>
-      <NoirDemo />
+      <Routes>
+        <Route path="/" component={IndexPage} />
+        <Route path="/bouncer" component={BouncerPage} />
+        <Route path="/entrant" component={EntrantPage} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
