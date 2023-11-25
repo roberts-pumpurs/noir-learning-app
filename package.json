@@ -1,26 +1,22 @@
 {
-	"name": "noir-vite-starter",
-	"version": "1.0.0",
-	"description": "Starter project for Noir using vite",
-	"main": "index.js",
-	"keywords": [
-		"Noir",
-		"Vite",
-		"Starter"
-	],
-	"author": "Roberts Ivanovs (roberts@pumpurs.info)",
-	"license": "MIT",
-	"scripts": {
-		"dev": "vite --open",
-		"build": "vite build",
-		"preview": "vite preview"
-	},
-	"dependencies": {
-		"@noir-lang/backend_barretenberg": "^0.19.3",
-		"@noir-lang/noir_js": "^0.19.3"
-	},
-	"devDependencies": {
+  "name": "my-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open --port 5177",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "solid-js": "^1.8.5",
+    "@noir-lang/backend_barretenberg": "^0.19.3",
+    "@noir-lang/noir_js": "^0.19.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
 		"rollup-plugin-copy": "^3.5.0",
-		"vite": "^5.0.2"
-	}
+    "vite-plugin-solid": "^2.7.2"
+  }
 }

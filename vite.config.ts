@@ -1,4 +1,6 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import solid from 'vite-plugin-solid'
+
 import copy from 'rollup-plugin-copy';
 import fs from 'fs';
 import path from 'path';
@@ -23,6 +25,7 @@ export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
       plugins: [
+        solid(),
         copy({
           targets: [
             { src: 'node_modules/**/*.wasm', dest: 'node_modules/.vite/dist' },
