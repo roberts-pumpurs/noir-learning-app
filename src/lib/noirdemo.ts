@@ -18,5 +18,5 @@ export async function generateProof(age: number): Promise<ProofData> {
 }
 
 export async function verifyProof(proof: ProofData): Promise<boolean> {
-  return AgeVerifier.verifyProof(proof);
+  return AgeVerifier.verifyFinalProof(proof);
 }

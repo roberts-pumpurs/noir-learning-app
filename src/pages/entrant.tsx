@@ -1,4 +1,4 @@
-import { generateProof } from '../lib/noirdemo';
+import { MINIMUM_AGE, generateProof } from '../lib/noirdemo';
 import { createSignal, createResource } from 'solid-js';
 import { QRCodeSVG } from 'solid-qr-code';
 import { unpack, pack } from 'msgpackr';
@@ -8,12 +8,12 @@ export function EntrantPage() {
   const [proof, obj] = createResource(age, async (ageN) => {
     const proof = await generateProof(ageN);
     console.log(proof);
-    console.log(pack(proof.proof));
-    return pack(proof.proof);
+    // console.log(pack(proof.proof));
+    return { proof: proof.proof, publicInputs: proof.publicInputs };
   });
 
   return (
-    <div class="bg-white p-10 rounded-lg shadow-lg text-center">
+    <div class="text-black bg-white p-10 rounded-lg shadow-lg text-center">
       <h1 class="text-2xl font-bold mb-4">ENTRANT</h1>
       <div class="mb-4">
         <label for="age" class="block text-lg mb-2">
@@ -24,7 +24,7 @@ export function EntrantPage() {
           id="age"
           name="age"
           value={age()}
-          class="border-2 border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:border-purple-500"
+          class="border-2 border-gray-300 rounded-lg p-2 w-full text-white focus:outline-none focus:border-purple-500"
           placeholder="Enter your age"
           onChange={(e) => {
             const age = parseInt(e.currentTarget.value);
@@ -46,7 +46,20 @@ export function EntrantPage() {
         <p class="text-gray-500">Refreshing...</p>
       )}
       {proof.state === 'unresolved' && <div />}
-      {proof.state === 'ready' && <QRCodeSVG value={proof} />}
+      {proof.state === 'ready' && (
+        <div>
+          <div>Age: {age()}</div>
+          <div>Minimal age: {MINIMUM_AGE}</div>
+          <div>Proof: {uint8ArrayToHex(proof.latest.proof)}</div>
+          <QRCodeSVG value={proof} size={600} />
+        </div>
+      )}
     </div>
   );
+}
+
+export function uint8ArrayToHex(uint8array: Buffer) {
+  return Array.from(uint8array)
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
 }
