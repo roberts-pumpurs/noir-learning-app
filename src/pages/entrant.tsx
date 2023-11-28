@@ -1,16 +1,29 @@
 import { MINIMUM_AGE, generateProof } from '../lib/noirdemo';
 import { createSignal, createResource } from 'solid-js';
-import { QRCodeSVG } from 'solid-qr-code';
-import { unpack, pack } from 'msgpackr';
+import asd from 'qrcode';
 
 export function EntrantPage() {
   const [age, setAge] = createSignal<number | undefined>(undefined);
+  let canvasRef: HTMLCanvasElement | undefined;
   const [proof, obj] = createResource(age, async (ageN) => {
     const proof = await generateProof(ageN);
     console.log(proof);
-    // console.log(pack(proof.proof));
-    return { proof: proof.proof, publicInputs: proof.publicInputs };
+    const hexProof = uint8ArrayToHex(proof.proof);
+    asd.toCanvas(
+      canvasRef,
+
+      [{ data: proof.proof, mode: 'byte' }],
+      {
+        errorCorrectionLevel: 'L',
+        margin: 1,
+        scale: 1,
+        width: 600,
+      },
+    );
+    return { proof: proof.proof, hexProof, publicInputs: proof.publicInputs };
   });
+
+  console.log(asd);
 
   return (
     <div class="text-black bg-white p-10 rounded-lg shadow-lg text-center">
@@ -46,19 +59,27 @@ export function EntrantPage() {
         <p class="text-gray-500">Refreshing...</p>
       )}
       {proof.state === 'unresolved' && <div />}
-      {proof.state === 'ready' && (
-        <div>
-          <div>Age: {age()}</div>
-          <div>Minimal age: {MINIMUM_AGE}</div>
-          <div>Proof: {uint8ArrayToHex(proof.latest.proof)}</div>
-          <QRCodeSVG value={proof} size={600} />
-        </div>
-      )}
+      <div class="flex flex-col items-center">
+        {proof.state === 'ready' && proof.latest.proof && (
+          <>
+            <div>Age: {age()}</div>
+            <div>Minimal age: {MINIMUM_AGE}</div>
+            <div class="break-all overflow-auto px-20 my-10 h-20">
+              Proof: {proof.latest.hexProof}
+            </div>
+          </>
+        )}
+        <canvas
+          id="canvas"
+          ref={canvasRef}
+          style={{ width: '700px', height: '700px' }}
+        />
+      </div>
     </div>
   );
 }
 
-export function uint8ArrayToHex(uint8array: Buffer) {
+export function uint8ArrayToHex(uint8array: Uint8Array) {
   return Array.from(uint8array)
     .map((byte) => byte.toString(16).padStart(2, '0'))
     .join('');

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --open --port 5177",
+    "dev": "vite --open --port 5177 --host 0.0.0.0",
     "build": "tsc && vite build",
     "format": "biome format . --write",
     "lint": "biome check .",
@@ -14,7 +14,10 @@
     "@noir-lang/backend_barretenberg": "^0.19.3",
     "@noir-lang/noir_js": "^0.19.3",
     "@solidjs/router": "^0.9.1",
+    "@types/qrcode": "^1.5.5",
+    "html5-qrcode": "^2.3.8",
     "msgpackr": "^1.9.9",
+    "qrcode": "^1.5.3",
     "solid-js": "^1.8.5",
     "solid-qr-code": "^0.0.8"
   },
